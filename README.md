@@ -1,4 +1,4 @@
-# 📊 Linear Regression Models – From Scratch Implementation (Assignment-1)
+# 📊 Linear Regression Models –  (Assignment-1)
 
 ## 🔹 Objective
 
