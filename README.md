@@ -203,7 +203,7 @@ This experiment provides a strong foundation in regression analysis and machine 
 ## 🔹 Repository Structure
 
 ```
-📁 Linear-Regression-Assignment
+📁 Linear-Regression-Lab
  ├── dataset.csv
  ├── mlass.py
  ├── README.md
