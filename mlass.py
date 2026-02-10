@@ -1,81 +1,131 @@
-#STEP 1 — Libraries import
+# STEP 1 — Libraries import
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-from sklearn.linear_model import LinearRegression, Ridge, Lasso
-from sklearn.preprocessing import PolynomialFeatures
-from sklearn.metrics import mean_squared_error, r2_score
 
-#STEP 2 — Dataset load
+# STEP 2 — Dataset load
 data = pd.read_csv("dataset.csv")
 print(data.head())
 print(data.info())
 
-#STEP 3 — EDA (5 marks)
+# STEP 3 — EDA
 print(data.describe())
 print(data.isnull().sum())
-
-# correlation
 print(data.corr())
 
-# plots
 data.hist(figsize=(10,8))
 plt.show()
 
-#STEP 4 — Simple Linear Regression
-X = data[['Feature1']]
-y = data['Target']
+# =====================================================
+# SIMPLE LINEAR REGRESSION (manual formula)
+# =====================================================
+print("\n===== SIMPLE LINEAR REGRESSION =====")
 
-model = LinearRegression()
-model.fit(X, y)
+x = data['Feature1'].values
+y = data['Target'].values
 
-print("Slope:", model.coef_)
-print("Intercept:", model.intercept_)
+x_mean = np.mean(x)
+y_mean = np.mean(y)
 
-plt.scatter(X, y)
-plt.plot(X, model.predict(X), color='red')
+b1 = np.sum((x-x_mean)*(y-y_mean)) / np.sum((x-x_mean)**2)
+b0 = y_mean - b1*x_mean
+
+print("Slope:", b1)
+print("Intercept:", b0)
+
+y_pred_simple = b0 + b1*x
+
+plt.scatter(x,y)
+plt.plot(x,y_pred_simple,color='red')
+plt.title("Simple Linear Regression")
 plt.show()
 
-#STEP 5 — Multiple Linear Regression
-X = data[['Feature1','Feature2','Feature3']]
-y = data['Target']
+# =====================================================
+# MULTIPLE LINEAR REGRESSION (Normal Equation)
+# =====================================================
+print("\n===== MULTIPLE LINEAR REGRESSION =====")
 
-model = LinearRegression()
-model.fit(X, y)
+X = data[['Feature1','Feature2','Feature3']].values
+y = data['Target'].values
 
-pred = model.predict(X)
+# add bias column
+X_b = np.c_[np.ones((len(X),1)), X]
 
-print("MSE:", mean_squared_error(y, pred))
-print("RMSE:", np.sqrt(mean_squared_error(y, pred)))
-print("R2:", r2_score(y, pred))
+# normal equation
+theta = np.linalg.inv(X_b.T.dot(X_b)).dot(X_b.T).dot(y)
 
-#STEP 6 — Polynomial Regression
-poly = PolynomialFeatures(degree=2)
-X_poly = poly.fit_transform(data[['Feature1']])
+print("Coefficients:", theta)
 
-model = LinearRegression()
-model.fit(X_poly, y)
+y_pred = X_b.dot(theta)
 
-pred_poly = model.predict(X_poly)
+# =====================================================
+# METRICS (manual)
+# =====================================================
+def mse(y, pred):
+    return np.mean((y-pred)**2)
 
-print("Polynomial R2:", r2_score(y, pred_poly))
+def rmse(y, pred):
+    return np.sqrt(mse(y,pred))
 
-#STEP 7 — Ridge Regression
-ridge = Ridge(alpha=1.0)
-ridge.fit(X, y)
+def r2(y,pred):
+    ss_total = np.sum((y-np.mean(y))**2)
+    ss_res = np.sum((y-pred)**2)
+    return 1 - ss_res/ss_total
 
-print("Ridge coefficients:", ridge.coef_)
+print("MSE:", mse(y,y_pred))
+print("RMSE:", rmse(y,y_pred))
+print("R2:", r2(y,y_pred))
 
-#STEP 8 — Lasso Regression
-lasso = Lasso(alpha=0.1)
-lasso.fit(X, y)
+# =====================================================
+# POLYNOMIAL REGRESSION (degree 2 manual)
+# =====================================================
+print("\n===== POLYNOMIAL REGRESSION =====")
 
-print("Lasso coefficients:", lasso.coef_)
+x_poly = data['Feature1'].values
+X_poly = np.c_[np.ones(len(x_poly)), x_poly, x_poly**2]
 
-#STEP 9 — Residual Plot
-residuals = y - pred
+theta_poly = np.linalg.inv(X_poly.T.dot(X_poly)).dot(X_poly.T).dot(y)
+y_pred_poly = X_poly.dot(theta_poly)
 
-plt.scatter(pred, residuals)
+print("Polynomial R2:", r2(y,y_pred_poly))
+
+# =====================================================
+# RIDGE REGRESSION (manual)
+# =====================================================
+print("\n===== RIDGE REGRESSION =====")
+
+lam = 1
+I = np.eye(X_b.shape[1])
+theta_ridge = np.linalg.inv(X_b.T.dot(X_b)+lam*I).dot(X_b.T).dot(y)
+
+print("Ridge coefficients:", theta_ridge)
+
+# =====================================================
+# LASSO REGRESSION (Gradient Descent)
+# =====================================================
+print("\n===== LASSO REGRESSION =====")
+
+theta_lasso = np.zeros(X_b.shape[1])
+lr = 0.0001
+lam = 0.1
+
+for _ in range(1000):
+    pred = X_b.dot(theta_lasso)
+    error = pred - y
+
+    grad = X_b.T.dot(error)/len(y)
+
+    theta_lasso -= lr*(grad + lam*np.sign(theta_lasso))
+
+print("Lasso coefficients:", theta_lasso)
+
+# =====================================================
+# RESIDUAL PLOT
+# =====================================================
+residuals = y - y_pred
+
+plt.scatter(y_pred, residuals)
 plt.xlabel("Predicted")
 plt.ylabel("Residuals")
+plt.title("Residual Plot")
 plt.show()
