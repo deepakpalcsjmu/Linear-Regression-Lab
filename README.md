@@ -17,7 +17,7 @@ The aim is to understand how regression models work, evaluate their performance,
 
 ## 🔹 Dataset Description
 
-A synthetic dataset (`linear_regression_dataset.csv`) is used for this assignment.
+A synthetic dataset (`dataset.csv`) is used for this assignment.
 
 **Dataset contains:**
 
@@ -58,7 +58,7 @@ All required libraries are imported:
 The CSV dataset is loaded using Pandas:
 
 ```python
-data = pd.read_csv("linear_regression_dataset.csv")
+data = pd.read_csv("dataset.csv")
 ```
 
 Basic information like shape, columns, and preview of data is displayed.
