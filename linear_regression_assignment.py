@@ -24,7 +24,7 @@ plt.show()
 sns.heatmap(data.corr(), annot=True, cmap='coolwarm')
 plt.show()
 
-X = data[['Feature1','Feature2','Feature3']]
+X = data[['hours_studied','practice_score','attendance_rate']]
 y = data['Target']
 
 X_train, X_test, y_train, y_test = train_test_split(
@@ -32,8 +32,8 @@ X_train, X_test, y_train, y_test = train_test_split(
 )
 
 slr = LinearRegression()
-slr.fit(X_train[['Feature1']], y_train)
-y_slr = slr.predict(X_test[['Feature1']])
+slr.fit(X_train[['hours_studied']], y_train)
+y_slr = slr.predict(X_test[['hours_studied']])
 
 mlr = LinearRegression()
 mlr.fit(X_train, y_train)
