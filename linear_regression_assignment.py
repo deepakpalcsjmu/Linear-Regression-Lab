@@ -25,7 +25,7 @@ sns.heatmap(data.corr(), annot=True, cmap='coolwarm')
 plt.show()
 
 X = data[['hours_studied','practice_score','attendance_rate']]
-y = data['Target']
+y = data['final_score']
 
 X_train, X_test, y_train, y_test = train_test_split(
     X, y, test_size=0.2, random_state=42
