@@ -1,9 +1,11 @@
-# 📊 Linear Regression Models –  (Assignment-1)
+# 📊 Assignment-1: Comprehensive Study of Linear Regression Models (Manual Implementation)
 
-## 🔹 Objective
+## Objective
 
-The objective of this assignment is to implement and compare different **Linear Regression models from scratch** using Python.
-All models are implemented using **mathematical formulas and NumPy**, without using any machine-learning library like `sklearn`.
+The objective of this assignment is to perform a complete regression analysis using a synthetic dataset and implement different **linear regression models from scratch** using Python.
+
+Unlike standard implementations, this project **does not use any machine learning library such as scikit-learn**.
+All regression algorithms are implemented manually using mathematical formulas and NumPy operations to understand the internal working of models.
 
 Models implemented:
 
@@ -13,232 +15,212 @@ Models implemented:
 * Ridge Regression
 * Lasso Regression
 
-The goal is to understand how regression works internally, evaluate performance, and interpret results.
+The goal is to understand how regression works mathematically and how model performance is evaluated.
 
 ---
 
-## 🔹 Dataset Description
+## Dataset Description
 
-A synthetic dataset (`dataset.csv`) is used.
+* Dataset: `dataset.csv`
+* Type: Synthetic numerical dataset
+* Rows: Depends on generated dataset
+* Columns:
 
-Dataset contains:
+  * `Feature1`
+  * `Feature2`
+  * `Feature3`
+  * `Target`
 
-* **Feature1**
-* **Feature2**
-* **Feature3**
-* **Target**
-
-The target variable depends on the input features, making it suitable for regression analysis.
+The target variable is generated using a linear combination of the three features with some noise.
+This makes the dataset suitable for testing different regression techniques.
 
 ---
 
-## 🔹 Tools & Libraries Used
-
-This project does **not use sklearn**.
-Only basic libraries are used:
+## Tools & Technologies
 
 * Python
-* NumPy → numerical calculations
-* Pandas → dataset handling
-* Matplotlib → visualization
+* NumPy
+* Pandas
+* Matplotlib
+* Jupyter Notebook
 
-All regression algorithms are implemented manually using formulas.
-
----
-
-## 🔹 Project Workflow
-
-### 1️⃣ Import Libraries
-
-The following libraries are imported:
-
-```python
-import numpy as np
-import pandas as pd
-import matplotlib.pyplot as plt
-```
-
-NumPy is used for matrix operations, Pandas for data loading, and Matplotlib for plotting.
+⚠️ **Important:**
+No machine learning library (like scikit-learn) is used.
+All models are implemented manually using formulas.
 
 ---
 
-### 2️⃣ Load Dataset
+## Project Workflow
 
-Dataset is loaded using Pandas:
+### 1️⃣ Data Loading
+
+The dataset is loaded using pandas:
 
 ```python
 data = pd.read_csv("dataset.csv")
 ```
 
-Basic information is displayed:
-
-* First rows
-* Data types
-* Structure of dataset
+Basic information such as head, data types, and structure of the dataset is displayed.
 
 ---
 
-### 3️⃣ Exploratory Data Analysis (EDA)
+### 2️⃣ Exploratory Data Analysis (EDA)
 
-EDA is performed to understand the dataset.
+EDA is performed to understand the dataset:
 
-Steps:
+* Summary statistics (mean, std, etc.)
+* Missing value check
+* Correlation between variables
+* Histogram plots for feature distribution
 
-* Summary statistics using `describe()`
-* Missing values check
-* Correlation matrix
-* Histogram plots
-
-This helps identify relationships between features and target.
+This helps in understanding relationships between features and target.
 
 ---
 
-## 🔹 Model Implementations
+### 3️⃣ Simple Linear Regression (Manual)
 
-### 4️⃣ Simple Linear Regression (Manual)
+Simple Linear Regression is implemented using mathematical formulas:
 
-Simple linear regression is implemented using the formula:
-
+Slope formula:
 [
-y = b0 + b1x
+b1 = \frac{\sum (x-x̄)(y-ȳ)}{\sum (x-x̄)^2}
 ]
 
-Steps:
+Intercept:
+[
+b0 = ȳ - b1x̄
+]
 
-* Use `Feature1` to predict target
-* Calculate slope and intercept manually
-* Plot regression line
-
-This shows how one feature affects the target.
+A regression line is plotted to visualize the relationship between Feature1 and Target.
 
 ---
 
-### 5️⃣ Multiple Linear Regression (Normal Equation)
+### 4️⃣ Multiple Linear Regression (Normal Equation)
 
-Multiple regression uses all features.
+Multiple regression uses all three features:
 
-Formula used:
 [
-\theta = (X^T X)^{-1} X^T y
+\theta = (X^TX)^{-1}X^Ty
 ]
 
 Steps:
 
 * Add bias column
-* Compute coefficients using matrix multiplication
-* Predict target values
+* Apply normal equation
+* Compute coefficients
+* Predict values
 
-This model uses all three features.
+This allows prediction using multiple variables.
 
 ---
 
-### 6️⃣ Evaluation Metrics (Manual)
+### 5️⃣ Model Evaluation Metrics (Manual)
 
-Metrics are calculated manually:
+The following metrics are implemented manually:
 
 * Mean Squared Error (MSE)
 * Root Mean Squared Error (RMSE)
 * R² Score
 
-These metrics evaluate model performance.
+These metrics evaluate how well the model fits the data.
 
 ---
 
-### 7️⃣ Polynomial Regression
+### 6️⃣ Polynomial Regression
 
-Polynomial regression is implemented manually.
+Polynomial regression of degree 2 is implemented manually:
 
-Steps:
-
-* Create new feature: (x^2)
-* Fit model using normal equation
+* Create new feature (x^2)
+* Apply normal equation
 * Compare R² score with linear model
 
-This helps capture non-linear patterns.
+Used to capture non-linear patterns.
 
 ---
 
-### 8️⃣ Ridge Regression (Manual)
+### 7️⃣ Ridge Regression (Manual)
 
-Ridge regression is implemented using formula:
+Ridge regression adds regularization to reduce overfitting:
 
 [
-(X^TX + \lambda I)^{-1} X^T y
+\theta = (X^TX + \lambda I)^{-1}X^Ty
 ]
 
-It reduces overfitting by shrinking coefficients.
+This shrinks coefficients but keeps all features.
 
 ---
 
-### 9️⃣ Lasso Regression (Manual Gradient Descent)
+### 8️⃣ Lasso Regression (Manual Gradient Descent)
 
-Lasso regression is implemented using gradient descent.
+Lasso regression is implemented using gradient descent with L1 penalty.
 
 Steps:
 
 * Initialize weights
-* Update using gradient + L1 penalty
-* Perform feature shrinkage
+* Compute gradient
+* Update weights iteratively
+* Apply L1 regularization
 
-Lasso helps in feature selection.
+This can reduce some coefficients toward zero.
 
 ---
 
-### 🔟 Residual Analysis
+### 9️⃣ Residual Analysis
 
 Residuals are calculated:
-
 [
-Residual = Actual − Predicted
+Residual = Actual - Predicted
 ]
 
 A residual plot is drawn to check:
 
-* Model accuracy
-* Random error distribution
+* Prediction accuracy
+* Error patterns
+* Model assumptions
 
-If residuals are random → model is good.
-
----
-
-## 🔹 Results & Observations
-
-* Multiple regression performed better than simple regression.
-* Polynomial regression captured non-linear trends.
-* Ridge regression reduced coefficient magnitude.
-* Lasso regression pushed some weights towards zero.
-
-Overall, models predicted the target effectively.
+Random residual distribution indicates a good model.
 
 ---
 
-## 🔹 Conclusion
+## Results & Observations
 
-This assignment demonstrates how regression algorithms work internally without using machine-learning libraries.
+* Simple regression shows basic linear relationship.
+* Multiple regression improves accuracy using all features.
+* Polynomial regression captures non-linear patterns.
+* Ridge reduces overfitting by shrinking weights.
+* Lasso performs coefficient regularization.
 
-We learned:
-
-* Mathematical implementation of regression
-* Matrix-based solution
-* Gradient descent for Lasso
-* Model evaluation techniques
-
-Implementing models from scratch improved understanding of machine-learning fundamentals.
+Overall, manually implemented models produce reasonable predictions.
 
 ---
 
-## 🔹 Repository Structure
+## Conclusion
+
+This assignment demonstrates how regression algorithms work internally without using machine learning libraries.
+By implementing formulas manually, we gain deeper understanding of:
+
+* Regression mathematics
+* Model evaluation
+* Regularization techniques
+* Error analysis
+
+This project builds a strong conceptual foundation for machine learning.
+
+---
+
+## Project Structure
 
 ```
-📁 Linear-Regression-Lab
+📁 Regression-Assignment
  ├── dataset.csv
+ ├── ass.ipynb
  ├── mlass.py
- ├── README.md
+ └── README.md
 ```
 
 ---
 
-## 🔹 Author
+## Author
 
 M.Tech Student
-Machine Learning Lab Assignment
+Machine Learning Lab Assignment-1
