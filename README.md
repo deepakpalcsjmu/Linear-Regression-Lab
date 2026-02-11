@@ -3,6 +3,13 @@
 ## 📌 Assignment
 Comprehensive Study of Linear Regression Models
 
+## Members of the Group
+- Biplob Kumar
+- Deepak Pal
+- Sonam
+- Soumya
+- Zaid
+
 ---
 
 ## 🎯 Objective
