@@ -16,6 +16,14 @@ print(data.corr())
 data.hist(figsize=(10,8))
 plt.show()
 
+# Correlation heatmap
+plt.imshow(data.corr(), cmap='coolwarm', interpolation='none')
+plt.colorbar()
+plt.xticks(range(4), data.columns, rotation=45)
+plt.yticks(range(4), data.columns)
+plt.title("Correlation Heatmap")
+plt.show()
+
 # =====================================================
 # SIMPLE LINEAR REGRESSION (manual formula)
 # =====================================================
